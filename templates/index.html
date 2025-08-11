@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gold Price Prediction</title>
+    <style>
+      body {
+        background: url("https://img.pikbest.com/ai/illus_our/20230427/f8ba94a45d27fe7b283d9e9329eb300b.jpg!bw700");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+        margin: 0;
+      }
+
+      /* Gold coin animation */
+      .coin {
+        position: absolute;
+        top: -50px;
+        width: 40px;
+        height: 40px;
+        background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Gold_coin_icon.png/512px-Gold_coin_icon.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 50%;
+        animation: drop 5s linear infinite, spin 2s linear infinite;
+      }
+
+      @keyframes drop {
+        0% {
+          transform: translateY(-50px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0.9;
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotateY(0deg);
+        }
+        100% {
+          transform: rotateY(360deg);
+        }
+      }
+
+      .container {
+        background: Gold;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 350px;
+        text-align: center;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+
+      button {
+        background: orange;
+        color: white;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: darkorange;
+      }
+
+      @media (max-width: 500px) {
+        h1 {
+          font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Falling coins -->
+    <script>
+      function createCoin() {
+        const coin = document.createElement("div");
+        coin.classList.add("coin");
+        coin.style.left = Math.random() * 100 + "vw";
+        coin.style.animationDuration = Math.random() * 3 + 2 + "s, 2s";
+        document.body.appendChild(coin);
+        setTimeout(() => coin.remove(), 5000);
+      }
+      setInterval(createCoin, 300);
+    </script>
+
+    <div class="container">
+      <h1>💰 Gold Price Prediction</h1>
+      <form action="/predict" method="post">
+        <input type="date" name="date" required />
+        <input
+          type="number"
+          step="any"
+          name="spx"
+          placeholder="Enter SPX Value"
+          required
+        />
+        <input
+          type="number"
+          step="any"
+          name="uso"
+          placeholder="Enter USD Value"
+          required
+        />
+        <input
+          type="number"
+          step="any"
+          name="slv"
+          placeholder="Enter SLV Value"
+          required
+        />
+        <input
+          type="number"
+          step="any"
+          name="eurusd"
+          placeholder="Enter EUR/USD Value"
+          required
+        />
+        <button type="submit">Predict</button>
+        {% if prediction_text %}
+        <h3>{{ prediction_text }}</h3>
+        {% endif %}
+      </form>
+    </div>
+  </body>
+</html>
