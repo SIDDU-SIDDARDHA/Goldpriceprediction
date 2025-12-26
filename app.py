@@ -6,42 +6,52 @@ import datetime
 app = Flask(__name__)
 
 # Load trained model
-with open('model.pkl', 'rb') as f:
-    model = pickle.load(f)
+model = pickle.load(open("model.pkl", "rb"))
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        # Get inputs
+        # Get date from form
         date_str = request.form['date']
-        spx = float(request.form['spx'])
-        uso = float(request.form['uso'])
-        slv = float(request.form['slv'])
-        eurusd = float(request.form['eurusd'])
-
-        # Convert date to numeric features
         date_obj = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+
         year = date_obj.year
         month = date_obj.month
         day = date_obj.day
         day_of_year = date_obj.timetuple().tm_yday
 
-        # Create dataframe for prediction
-        input_data = pd.DataFrame([[year, month, day, day_of_year, spx, uso, slv, eurusd]],
-                                  columns=['Year', 'Month', 'Day', 'DayOfYear', 'SPX', 'USO', 'SLV', 'EUR/USD'])
+        # Create input for ML model
+        input_data = pd.DataFrame([[year, month, day, day_of_year]],
+                                  columns=['Year','Month','Day','DayOfYear'])
 
-        # Predict
-        prediction = model.predict(input_data)[0]
+        # Predict 24K price per 10gm
+        pred_24k_10gm = model.predict(input_data)[0]
 
-        return render_template('index.html', prediction_text=f"Predicted Gold Price: {prediction:.2f}")
+        # Convert to other prices
+        pred_24k_1gm = pred_24k_10gm / 10
+        pred_916_1gm = pred_24k_1gm * 0.916
+        pred_916_10gm = pred_24k_10gm * 0.916
+
+        return render_template("index.html",
+            prediction_text=f"""
+            Predicted Gold Prices for {date_str}
+
+            24K Gold:
+            1 Gram  : ₹{pred_24k_1gm:.2f}
+            10 Gram : ₹{pred_24k_10gm:.2f}
+
+            916 Gold:
+            1 Gram  : ₹{pred_916_1gm:.2f}
+            10 Gram : ₹{pred_916_10gm:.2f}
+            """
+        )
 
     except Exception as e:
-        return render_template('index.html', prediction_text=f"Error: {str(e)}")
+        return render_template("index.html", prediction_text=f"Error: {str(e)}")
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug=True)
-
+    app.run(debug=True)
