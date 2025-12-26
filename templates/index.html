@@ -1,170 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gold Price Prediction</title>
-    <style>
-      body {
-        background: url("https://img.pikbest.com/ai/illus_our/20230427/f8ba94a45d27fe7b283d9e9329eb300b.jpg!bw700");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+<head>
+<meta charset="UTF-8">
+<title>Gold Price Prediction | 24K & 916</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-        position: relative;
-        margin: 0;
-      }
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg,#0f2027,#203a43,#2c5364);
+    color: white;
+}
 
-      /* Gold coin animation */
-      .coin {
-        position: absolute;
-        top: -50px;
-        width: 40px;
-        height: 40px;
-        background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Gold_coin_icon.png/512px-Gold_coin_icon.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        border-radius: 50%;
-        animation: drop 5s linear infinite, spin 2s linear infinite;
-      }
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-      @keyframes drop {
-        0% {
-          transform: translateY(-50px) rotate(0deg);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(110vh) rotate(360deg);
-          opacity: 0.9;
-        }
-      }
+.card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 40px;
+    width: 420px;
+    box-shadow: 0 0 40px rgba(255,215,0,0.5);
+    animation: fadeIn 1.5s ease;
+}
 
-      @keyframes spin {
-        0% {
-          transform: rotateY(0deg);
-        }
-        100% {
-          transform: rotateY(360deg);
-        }
-      }
+h1 {
+    text-align: center;
+    color: gold;
+    margin-bottom: 10px;
+}
 
-      .container {
-        background: gold;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        width: 90%;
-        max-width: 350px;
-        text-align: center;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #ddd;
+    margin-bottom: 30px;
+}
 
-      h1 {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-      }
+label {
+    font-size: 14px;
+    margin-top: 15px;
+    display: block;
+}
 
-      input {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 1rem;
-      }
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 5px;
+    font-size: 16px;
+    outline: none;
+}
 
-      button {
-        background: orange;
-        color: white;
-        border: none;
-        padding: 10px;
-        width: 100%;
-        border-radius: 8px;
-        font-size: 1rem;
-        cursor: pointer;
-      }
+input[type="date"] {
+    background: white;
+}
 
-      button:hover {
-        background: darkorange;
-      }
+button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    background: linear-gradient(45deg, gold, orange);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.4s;
+}
 
-      @media (max-width: 500px) {
-        h1 {
-          font-size: 1.3rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Falling coins -->
-    <script>
-      function createCoin() {
-        const coin = document.createElement("div");
-        coin.classList.add("coin");
-        coin.style.left = Math.random() * 100 + "vw";
-        coin.style.animationDuration = Math.random() * 3 + 2 + "s, 2s";
-        document.body.appendChild(coin);
-        setTimeout(() => coin.remove(), 5000);
-      }
-      setInterval(createCoin, 300);
-    </script>
+button:hover {
+    background: linear-gradient(45deg, orange, gold);
+    transform: scale(1.05);
+}
 
-    <div class="container">
-      <h1>💰 Gold Price Prediction</h1>
-      <form action="/predict" method="post">
-        <!-- Updated date input with dd/mm/yyyy placeholder -->
-        <input
-          type="text"
-          name="date"
-          placeholder="dd/mm/yyyy"
-          onfocus="(this.type='date')"
-          onblur="if(this.value===''){this.type='text'}"
-          required
-        />
-        <input
-          type="number"
-          step="any"
-          name="spx"
-          placeholder="Enter SPX Value"
-          required
-        />
-        <input
-          type="number"
-          step="any"
-          name="uso"
-          placeholder="Enter USD Value"
-          required
-        />
-        <input
-          type="number"
-          step="any"
-          name="slv"
-          placeholder="Enter SLV Value"
-          required
-        />
-        <input
-          type="number"
-          step="any"
-          name="eurusd"
-          placeholder="Enter EUR/USD Value"
-          required
-        />
-        <button type="submit">Predict</button>
+.result {
+    margin-top: 25px;
+    padding: 15px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 15px;
+    font-size: 15px;
+    white-space: pre-line;
+    color: #ffd700;
+}
+
+footer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 20px;
+    color: #aaa;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>💎 Gold Price Predictor</h1>
+        <div class="subtitle">24K & 916 Gold Prediction using Machine Learning</div>
+
+        <form action="/predict" method="POST">
+
+            <label>Select Date</label>
+            <input type="date" name="date" required>
+
+            <button type="submit">🔮 Predict Gold Price</button>
+
+        </form>
+
         {% if prediction_text %}
-        <h3>{{ prediction_text }}</h3>
+        <div class="result">
+            {{ prediction_text }}
+        </div>
         {% endif %}
-      </form>
+
+        <footer>
+            Powered by Random Forest ML Model <br>
+            Designed for Gold Market Analysis
+        </footer>
+
     </div>
-  </body>
+</div>
+
+</body>
 </html>
